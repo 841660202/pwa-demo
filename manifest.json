@@ -1,10 +1,10 @@
 {
   "short_name": "资产管理",
-  "name": "@ copyright chen, created by chen, 2020~2200 ",
+  "name": "资产管理",
   "display": "fullscreen",
   "start_url": "/pwa-demo/",
-  "theme_color": "#001f3f",
-  "background_color": "#F6F5F7",
+  "theme_color": "red",
+  "background_color": "#2196f3",
   "icons": [
     {
       "src": "128.png",
