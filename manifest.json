@@ -5,6 +5,7 @@
   "start_url": "/pwa-demo/",
   "theme_color": "red",
   "background_color": "#2196f3",
+  "description": "这是一个pwa,描述信息尝试。。。",
   "icons": [
     {
       "src": "128.png",
