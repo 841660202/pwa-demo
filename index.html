@@ -10,20 +10,20 @@
 </head>
 
 <body>
-  <pre>
-    hello service-worker
-    <a href="https://developers.google.com/web/tools/workbox/guides/get-started">https://developers.google.com/web/tools/workbox/guides/get-started</a>
+  <div>
+    <div>hello service-worker</div>
+    <a href="https://developers.google.com/web/tools/workbox/guides/get-started">workbox</a>
 
-  </pre>
-  <script>
-    // Check that service workers are supported
-    if ('serviceWorker' in navigator) {
-      // Use the window load event to keep the page load performant
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/pwa-demo/service-worker.js');
-      });
-    }
-  </script>
+    </pre>
+    <script>
+      // Check that service workers are supported
+      if ('serviceWorker' in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/pwa-demo/service-worker.js');
+        });
+      }
+    </script>
 </body>
 
 </html>
