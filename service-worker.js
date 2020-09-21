@@ -21,22 +21,23 @@ registerRoute(
 );
 
 // 安装阶段跳过等待，直接进入 active
-var cacheName = "cachev3"
+var nowCacheName = "cachev4"
 self.addEventListener('install', function (event) {
     event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', function (event) {
+  console.log('caches.keys()',caches.keys())
+
     event.waitUntil(
         Promise.all([
             // 更新客户端
             self.clients.claim(),
-
             // 清理旧版本
             caches.keys().then(function (cacheList) {
                 return Promise.all(
                     cacheList.map(function (cacheName) {
-                        if (cacheName !== 'cachev1') {
+                        if (cacheName !== nowCacheName) {
                             return caches.delete(cacheName);
                         }
                     })
