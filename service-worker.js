@@ -21,7 +21,7 @@ registerRoute(
 );
 
 // 安装阶段跳过等待，直接进入 active
-var cacheName = "cachev2"
+var cacheName = "cachev3"
 self.addEventListener('install', function (event) {
     event.waitUntil(self.skipWaiting());
 });
