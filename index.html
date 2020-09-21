@@ -7,13 +7,27 @@
   <link rel="manifest" href="manifest.json">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>pwa</title>
+  <style>
+    #button {
+      min-width: 40px;
+      display: inline;
+      padding: 6px;
+      text-align: center;
+      background-color: #2196f3;
+      color: #fff;
+      line-height: 32px;
+    }
+  </style>
 </head>
 
 <body>
   <div>
-    <div>hello service-worker</div>
-    <a href="https://developers.google.com/web/tools/workbox/guides/get-started">workbox</a>
-
+    <!-- <div>hello service-worker</div> -->
+    <!-- <a href="https://developers.google.com/web/tools/workbox/guides/get-started">workbox</a> -->
+    <div>
+      <div id="button">notification</div>
+      <div id="text"></div>
+    </div>
     </pre>
     <script>
       // Check that service workers are supported
@@ -23,6 +37,34 @@
           navigator.serviceWorker.register('/pwa-demo/service-worker.js');
         });
       }
+
+
+      /*
+        获得权限
+        这行代码在这里不起作用，因为可以通过permission来判断是否具有权限，当然可以通过这
+        个方式来人为获取权限，然后再根据使用者的行为来判断是否继续进行之后的代码，毕竟默认
+        的权限是default
+        var reqPermission = Notification.requestPermission();
+        点击按钮
+        */
+      document.querySelector('#button').addEventListener('click', function () {
+        if (Notification.permission == "granted") {
+          var notification = new Notification("Hi，帅哥：", {
+            body: 'hello',
+            icon: './128.png'
+          });
+          var text = document.querySelector('#text');
+          notification.onclick = function () {
+            text.innerHTML = 'world！';
+            notification.close();
+          };
+          setTimeout(function () {
+            notification.close();
+          }, 5000);
+        } else {
+          alert('未授权');
+        }
+      });
     </script>
 </body>
 
