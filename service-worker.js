@@ -1,5 +1,5 @@
 console.log('Hello from service-worker.js');
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+importScripts('./workbox-sw.js');
 
 if (workbox) {
   console.log(`Yay! Workbox is loaded 🎉`);
@@ -22,10 +22,9 @@ registerRoute(
 
 // 安装阶段跳过等待，直接进入 active
 var nowCacheName = "cachev6"
-.addEventListener('controllerchange', () => {
 
+self.addEventListener('controllerchange', () => {
   window.location.reload();
-
 })
 self.addEventListener('install', function (event) {
     event.waitUntil(self.skipWaiting());
