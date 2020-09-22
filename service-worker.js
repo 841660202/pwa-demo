@@ -21,11 +21,16 @@ registerRoute(
 );
 
 // 安装阶段跳过等待，直接进入 active
-var nowCacheName = "cachev5"
+var nowCacheName = "cachev6"
+.addEventListener('controllerchange', () => {
+
+  window.location.reload();
+
+})
 self.addEventListener('install', function (event) {
     event.waitUntil(self.skipWaiting());
 });
-
+ 
 self.addEventListener('activate', function (event) {
   console.log('caches.keys()',caches.keys())
 
