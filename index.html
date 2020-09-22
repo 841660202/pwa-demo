@@ -78,7 +78,8 @@
         });
       } else {
         // 表示该 sw 监听的是根域名下的请求
-        sw.register("./sw.js", { scope: "/" })
+        // sw.register("./sw.js", { scope: "/" })
+        sw.register("./sw.js")
           .then(registration => {
             // 注册成功后会进入回调
             console.log("Registered events at scope: ", registration.scope);
