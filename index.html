@@ -67,7 +67,7 @@
         点击按钮
         */
       document.querySelector('#button').addEventListener('click', function () {
-        if (Notification.permission == "granted") {
+        if (Notification && Notification.permission == "granted") {
           var notification = new Notification("Hi，帅哥：", {
             body: 'hello',
             icon: './128.png'
