@@ -2,7 +2,7 @@
   "name": "Minimal PWA",
   "short_name": "PWA Demo",
   "display": "standalone",
-  "start_url": "/pwa-demo/",
+  "start_url": "/",
   "theme_color": "#313131",
   "background_color": "#313131",
   "icons": [
