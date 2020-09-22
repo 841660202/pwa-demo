@@ -2,13 +2,13 @@
   <title>PWA</title>
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" type="text/css" href="main.css" />
-  <link rel="icon" href="/e.png" type="image/png" />
+  <link rel="stylesheet" type="text/css" href="./main.css" />
+  <link rel="icon" href="./e.png" type="image/png" />
 </head>
 
 <body>
   <div class="revision">Revision 7</div>
-  <img src="pwa-fonts.png" />
+  <img src="./pwa-fonts.png" />
 
   <div class="network-message">
     Network:
@@ -64,7 +64,7 @@
       // });
 
       if (!!killSW) {
-        sw.getRegistration("/sw.js").then(registration => {
+        sw.getRegistration("./sw.js").then(registration => {
           // 手动注销
           registration.unregister && registration.unregister();
           // 清除缓存
@@ -78,7 +78,7 @@
         });
       } else {
         // 表示该 sw 监听的是根域名下的请求
-        sw.register("/sw.js", { scope: "/" })
+        sw.register("./sw.js", { scope: "/" })
           .then(registration => {
             // 注册成功后会进入回调
             console.log("Registered events at scope: ", registration.scope);
