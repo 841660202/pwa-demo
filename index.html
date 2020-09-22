@@ -1,73 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <title>pwa</title>
-  <style>
-    #button {
-      min-width: 40px;
-      display: inline;
-      padding: 6px;
-      text-align: center;
-      background-color: #2196f3;
-      color: #fff;
-      line-height: 32px;
-    }
-  </style>
+  <title>PWA</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" type="text/css" href="main.css" />
+  <link rel="icon" href="/e.png" type="image/png" />
 </head>
 
 <body>
-  <div>
-    <!-- <div>hello service-worker</div> -->
-    <!-- <a href="https://developers.google.com/web/tools/workbox/guides/get-started">workbox</a> -->
-    <div>
-      var cacheName = "cachev6"
-      <div id="button">notification</div>
-      <div id="text"></div>
-    </div>
-    </pre>
-    <script>
-      // Check that service workers are supported
-      if ('serviceWorker' in navigator) {
-        // Use the window load event to keep the page load performant
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js');
-          navigator.serviceWorker.register('/pwa-demo/service-worker.js');
+  <div class="revision">Revision 7</div>
+  <img src="pwa-fonts.png" />
+
+  <div class="network-message">
+    Network:
+    <span id="network-status" class="">Good</span>
+  </div>
+
+  <div id="model" style="display: none;">
+    <p>站点发生了更新</p>
+
+    <button onclick="skip()">立即更新</button>
+  </div>
+  <script type="text/javascript">
+
+    function changeModel() {
+      document.getElementById("model").style.display =
+        document.getElementById("model").style.display === "none"
+          ? "block"
+          : "none";
+    }
+
+    function skip() {
+      try {
+        changeModel();
+        navigator.serviceWorker.getRegistration().then(reg => {
+          reg.waiting.postMessage("skipWaiting");
         });
+      } catch (e) {
+        console.log('e:',e)
+        window.location.reload();
+      }
+    }
+
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      window.location.reload();
+      console.log('controllerchange:')
+    });
+
+    // window.killSW = true;
+
+    window.addEventListener("load", function() {
+      const sw = window.navigator.serviceWorker;
+      const killSW = window.killSW || false;
+      if (!sw) {
+        return;
       }
 
+      // fetch().then(function (status) {
+      //   if (status) {
+      //       // 注销所有已安装的 Service Worker
+      //   } else {
+      //       // 注册 Service Worker
+      //   }
+      // });
 
-      /*
-        获得权限
-        这行代码在这里不起作用，因为可以通过permission来判断是否具有权限，当然可以通过这
-        个方式来人为获取权限，然后再根据使用者的行为来判断是否继续进行之后的代码，毕竟默认
-        的权限是default
-        var reqPermission = Notification.requestPermission();
-        点击按钮
-        */
-      document.querySelector('#button').addEventListener('click', function () {
-        if (Notification.permission == "granted") {
-          var notification = new Notification("Hi，帅哥：", {
-            body: 'hello',
-            icon: './128.png'
+      if (!!killSW) {
+        sw.getRegistration("/sw.js").then(registration => {
+          // 手动注销
+          registration.unregister && registration.unregister();
+          // 清除缓存
+          window.caches &&
+            caches.keys &&
+            caches.keys().then(function(keys) {
+              keys.forEach(function(key) {
+                caches.delete(key);
+              });
+            });
+        });
+      } else {
+        // 表示该 sw 监听的是根域名下的请求
+        sw.register("/sw.js", { scope: "/" })
+          .then(registration => {
+            // 注册成功后会进入回调
+            console.log("Registered events at scope: ", registration.scope);
+
+            if (registration.waiting) {
+              // 通知提示栏显示
+              console.log('通知提示栏显示')
+              changeModel();
+              return;
+            }
+            // 每当Registration.Installing属性获取新的sw时都会调用该方法
+            registration.onupdatefound = function() {
+              const installingWorker = registration.installing;
+              installingWorker.onstatechange = function() {
+                switch (installingWorker.state) {
+                  case "installed":
+                    // 应为在sw第一次安装的时候也会调用onupdatefound，所以要检查是否已经被sw控制
+                    if (navigator.serviceWorker.controller) {
+                      changeModel();
+                      // 通知提示栏显示
+                    }
+                    break;
+                }
+              };
+            };
+          })
+          .catch(err => {
+            console.error(err);
           });
-          var text = document.querySelector('#text');
-          notification.onclick = function () {
-            text.innerHTML = 'world！';
-            notification.close();
-          };
-          setTimeout(function () {
-            notification.close();
-          }, 5000);
-        } else {
-          alert('未授权');
-        }
-      });
-    </script>
-</body>
+      }
+    });
 
-</html>
+    fetch("./data.json");
+
+    const statusEl = document.querySelector("#network-status");
+    if (!navigator.onLine) {
+      statusEl.classList = ["is-offline"];
+      statusEl.innerText = "Offline";
+    }
+  </script>
+</body>
