@@ -2,7 +2,7 @@ const version = 9;
 const cacheStorageKey = "testCache-" + version;
 
 // 这是需要预缓存的资源，也可以是appshell,可以通过webpack的插件来生成
-const cacheList = ["/", "index.html", "main.css", "e.png", "pwa-fonts.png"];
+// const cacheList = ["/", "index.html", "main.css", "e.png", "pwa-fonts.png"];
 const cacheList = ["index.html", "main.css", "e.png", "pwa-fonts.png"];
 
 // 注册成功的时候，以版本名为key主动缓存静态资源
