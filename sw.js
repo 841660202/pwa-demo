@@ -1,4 +1,4 @@
-const version = 9;
+const version = 10;
 const cacheStorageKey = "testCache-" + version;
 
 // 这是需要预缓存的资源，也可以是appshell,可以通过webpack的插件来生成
